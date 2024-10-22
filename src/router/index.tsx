@@ -6,6 +6,7 @@ import { Assets } from '@/components/Assets';
 import { Apps } from '@/components/Apps';
 import { Activity as ActivityPage } from '@/components/Activity';
 import { AddAccountPage } from '@/components/AddAccountPage';
+import { CreateAccountSuccessPage } from '@/components/CreateAccountSuccessPage';
 
 export const Router: React.FC = () => {
   return (
@@ -17,6 +18,7 @@ export const Router: React.FC = () => {
           <Route path="apps" element={<Apps />} />
           <Route path="activity" element={<ActivityPage />} />
           <Route path="add-account" element={<AddAccountPage />} />
+          <Route path="create-account-success" element={<CreateAccountSuccessPage />} />
         </Route>
       </Routes>
     </MemoryRouter>

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 export const AddAccountPage = () => {
   const navigate = useNavigate();
+
   return (
     <div className="h-full fixed inset-0 bg-black bg-opacity-50">
       <div className="bg-white rounded-lg w-full max-w-md h-screen flex flex-col">
@@ -28,7 +29,7 @@ export const AddAccountPage = () => {
             <div className="flex-grow border-t border-gray-300"></div>
           </div>
 
-          <Button variant="outline" className="w-full mb-2">
+          <Button variant="outline" className="w-full mb-2" onClick={() => { navigate('/create-account-success') }}>
             Create a new Passphrase Account
           </Button>
 

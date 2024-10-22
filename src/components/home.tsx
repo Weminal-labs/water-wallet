@@ -3,18 +3,9 @@ import { Settings, Plus, Database, Sparkles, Grid, Activity } from 'lucide-react
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import algosdk from 'algosdk';
 import { useNavigate } from 'react-router-dom';
 
 export const Home = () => {
-  const createAccount = () => {
-    const account = algosdk.generateAccount();
-    console.log("Account Address:", account.addr);
-    console.log("Account Private Key:", algosdk.secretKeyToMnemonic(account.sk));
-
-    // Here you would typically save the account information securely
-    // and update your UI to show the new account
-  };
 
   const navigate = useNavigate();
 
