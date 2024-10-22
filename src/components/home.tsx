@@ -1,13 +1,18 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Settings, Plus, Database, Sparkles, Grid, Activity } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useNavigate } from 'react-router-dom';
+import { getAccountInfo, getAccountTransactions } from '@/lib/algorand/account'
 
 export const Home = () => {
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    getAccountInfo('mainnet', 'DTUA424DKCJYPHF5MLO6CL4R2BWOTH2GLOUQA257K5I7G65ENHSDJ4TTTE');
+  }, [])
 
   return (
     <div className="p-3 space-y-6 flex flex-col h-full-screen mb-3">
@@ -64,19 +69,19 @@ export const Home = () => {
         </CardContent>
       </Card>
 
-      <div className="bg-gray-200 h-6 rounded-full w-full"></div>
-
       <div className="flex justify-center">
         <span className="text-sm text-gray-500 uppercase font-bold">lekhacthanhtung...Portfolio</span>
       </div>
 
       <div className="bg-blue-50 rounded-lg p-4">
-        <h2 className="text-3xl font-bold flex items-baseline">0.993995484 <span className="text-xl text-gray-500 ml-1">Algo</span></h2>
-        <div className="flex space-x-2 mt-2">
-          <Button variant="outline" size="sm">Send</Button>
-          <Button variant="outline" size="sm">Swap</Button>
+        <h2 className="text-3xl font-bold flex items-baseline justify-center">
+          0.993995484 <span className="text-xl text-gray-500 ml-1">Algo</span>
+        </h2>
+        <div className="flex justify-center space-x-4 mt-4">
+          <Button variant="outline" size="lg" className="w-1/3">Send</Button>
+          <Button variant="outline" size="lg" className="w-1/3">Swap</Button>
         </div>
-        <div className="flex items-center mt-4 text-blue-600">
+        <div className="flex items-center justify-center mt-4 text-blue-600">
           <Database className="w-5 h-5 mr-2" />
           <span className="font-medium">Currently Staked</span>
           <span className="ml-2">10 Algo</span>

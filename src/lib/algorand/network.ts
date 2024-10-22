@@ -15,3 +15,12 @@ export function getAlgorandNetworkUrl(network: string): string | null {
   return networkMap[lowercaseNetwork] || null;
 }
 
+/**
+ * Returns the URL for the Indexer API for a given Algorand network.
+ * @param network The name of the Algorand network.
+ * @returns The URL of the Indexer API.
+ */
+export const getIndexerUrl = (network: string): string => {
+  return `https://${network}-idx.algonode.cloud/`;
+}
+
