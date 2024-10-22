@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { getAccountInfo, getAssetInfo } from '@/lib/algorand/account'
 import algosdk from 'algosdk'
 import { NFTDetailModal } from '@/components/modal/NFTDetailModal';
+import { useAlgorandClient } from '@/contexts/AlgorandClientProvider'
 
 interface NFTInfo extends algosdk.modelsv2.Asset {
   type: string;
@@ -15,13 +16,20 @@ export const Assets = () => {
   const [nfts, setNfts] = useState<NFTInfo[]>([]);
   const [selectedNFT, setSelectedNFT] = useState<NFTInfo | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { currentAccount } = useAlgorandClient();
+
 
   useEffect(() => {
     const fetchNFTs = async () => {
       try {
-        const address = 'DTUA424DKCJYPHF5MLO6CL4R2BWOTH2GLOUQA257K5I7G65ENHSDJ4TTTE'; // Replace with the actual address
         const network = 'mainnet'; // or 'testnet' depending on your needs
-        const accountInfo = await getAccountInfo(network, address);
+
+        if (!currentAccount) {
+          console.error('No account selected');
+          return;
+        }
+
+        const accountInfo = await getAccountInfo(network, currentAccount.address);
 
         if (accountInfo?.assets) {
           const nftPromises = accountInfo.assets.map(asset =>

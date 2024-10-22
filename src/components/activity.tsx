@@ -7,6 +7,7 @@ import { Transaction } from 'algosdk/dist/types/client/v2/indexer/models/types'
 import { TransactionDetailsModal } from './modal/TransactionDetailsModal'
 import { getExplorerUrl } from '@/lib/algorand/network'
 import { formatAlgoAmount } from '@/lib/algorand/utils'
+import { useAlgorandClient } from '@/contexts/AlgorandClientProvider'
 
 type SimpleTransaction = {
   type: 'Transaction' | 'Receive' | 'Failed'
@@ -30,14 +31,18 @@ export const Activity = () => {
   const [simpleTransactions, setSimpleTransactions] = useState<SimpleTransaction[]>([])
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedTransaction, setSelectedTransaction] = useState<SimpleTransaction | null>(null)
+  const { currentAccount } = useAlgorandClient();
 
   useEffect(() => {
-    const address = "DTUA424DKCJYPHF5MLO6CL4R2BWOTH2GLOUQA257K5I7G65ENHSDJ4TTTE"
     const fetchTransactions = async () => {
       try {
-        const transactions = await getAccountTransactions('mainnet', address)
+        if (!currentAccount) {
+          console.error('No account selected');
+          return;
+        }
+        const transactions = await getAccountTransactions('mainnet', currentAccount.address)
         const formattedTransactions = transactions.map((tran: Transaction): SimpleTransaction => ({
-          type: tran.sender == address ? "Transaction" : "Receive",
+          type: tran.sender == currentAccount.address ? "Transaction" : "Receive",
           date: new Date(tran?.roundTime ?? 0 * 1000).toLocaleString('en-US', {
             month: 'short',
             day: 'numeric',

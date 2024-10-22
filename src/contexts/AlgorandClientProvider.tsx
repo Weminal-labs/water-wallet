@@ -1,11 +1,11 @@
+import { Account } from '@/types';
 import React, { createContext, useState, useContext, ReactNode } from 'react';
-import { Account } from 'algosdk';
 
 interface AlgorandClientContextType {
   network: string;
   setNetwork: (network: string) => void;
-  account: Account | null;
-  setAccount: (account: Account | null) => void;
+  currentAccount: Account | null;
+  setCurrentAccount: (account: Account | null) => void;
 }
 
 const AlgorandClientContext = createContext<AlgorandClientContextType | undefined>(undefined);
@@ -24,13 +24,18 @@ interface AlgorandClientProviderProps {
 
 export const AlgorandClientProvider: React.FC<AlgorandClientProviderProps> = ({ children }) => {
   const [network, setNetwork] = useState<string>('mainnet');
-  const [account, setAccount] = useState<Account | null>(null);
+  const [currentAccount, setCurrentAccount] = useState<Account | null>(
+    {
+      address: 'DTUA424DKCJYPHF5MLO6CL4R2BWOTH2GLOUQA257K5I7G65ENHSDJ4TTTE',
+      mnemonic: ""
+    }
+  );
 
   const value = {
     network,
     setNetwork,
-    account,
-    setAccount,
+    currentAccount,
+    setCurrentAccount,
   };
 
   return <AlgorandClientContext.Provider value={value}>{children}</AlgorandClientContext.Provider>;

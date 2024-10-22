@@ -4,15 +4,32 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useNavigate } from 'react-router-dom';
-import { getAccountInfo, getAccountTransactions } from '@/lib/algorand/account'
+import { getAccountInfo } from '@/lib/algorand/account'
+import { useAlgorandClient } from '@/contexts/AlgorandClientProvider'
+import algosdk from 'algosdk'
+import { formatAlgoAmount } from '@/lib/algorand/utils'
 
 export const Home = () => {
-
   const navigate = useNavigate();
+  const { currentAccount } = useAlgorandClient();
+  const [accountInfo, setAccountInfo] = useState<algosdk.modelsv2.Account | null>(null);
 
   useEffect(() => {
-    getAccountInfo('mainnet', 'DTUA424DKCJYPHF5MLO6CL4R2BWOTH2GLOUQA257K5I7G65ENHSDJ4TTTE');
-  }, [])
+    const fetchAccountInfo = async () => {
+      try {
+        if (currentAccount) {
+          const result = await getAccountInfo('mainnet', currentAccount.address)
+          setAccountInfo(result);
+        } else {
+          console.error('No account selected');
+        }
+      } catch (error) {
+        console.error('Error fetching account info:', error);
+      }
+    }
+
+    fetchAccountInfo();
+  }, [currentAccount])
 
   return (
     <div className="p-3 space-y-6 flex flex-col h-full-screen mb-3">
@@ -75,7 +92,7 @@ export const Home = () => {
 
       <div className="bg-blue-50 rounded-lg p-4">
         <h2 className="text-3xl font-bold flex items-baseline justify-center">
-          0.993995484 <span className="text-xl text-gray-500 ml-1">Algo</span>
+          {formatAlgoAmount(accountInfo?.amount || 0)} <span className="text-xl text-gray-500 ml-1">Algo</span>
         </h2>
         <div className="flex justify-center space-x-4 mt-4">
           <Button variant="outline" size="lg" className="w-1/3">Send</Button>
@@ -84,7 +101,7 @@ export const Home = () => {
         <div className="flex items-center justify-center mt-4 text-blue-600">
           <Database className="w-5 h-5 mr-2" />
           <span className="font-medium">Currently Staked</span>
-          <span className="ml-2">10 Algo</span>
+          <span className="ml-2">0 Algo</span>
         </div>
       </div>
 
@@ -92,22 +109,22 @@ export const Home = () => {
         <h3 className="text-lg font-semibold">MY COINS</h3>
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <div className="w-8 h-8 bg-blue-400 rounded-full mr-3 flex items-center justify-center">
-              <Sparkles className="w-5 h-5 text-white" />
-            </div>
+            <img src="img/algo_logo_dark.png" alt="Algorand Logo" className="w-8 h-8 mr-3" />
             <div>
               <div className="font-medium">Algo</div>
               <div className="text-sm text-gray-500">ALGO</div>
             </div>
           </div>
           <div className="text-right">
-            <div className="font-medium">0.993995...</div>
+            <div className="font-medium">{formatAlgoAmount(accountInfo?.amount || 0)}</div>
           </div>
         </div>
       </div>
 
-      <div className="space-y-4">
-        <h3 className="text-lg font-semibold">1 UNRECOGNIZED COIN</h3>
+      {/* <div className="space-y-4">
+        <h3 className="text-lg font-semibold">
+          {accountInfo?.totalAssetsOptedIn ?? 0} UNRECOGNIZED COIN{accountInfo?.totalAssetsOptedIn !== 1 ? 'S' : ''}
+        </h3>
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <div className="w-8 h-8 bg-green-400 rounded-full mr-3 flex items-center justify-center">
@@ -122,7 +139,7 @@ export const Home = () => {
             <div className="font-medium">116.52 US...</div>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }
