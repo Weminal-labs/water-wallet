@@ -8,14 +8,26 @@ export const AddAccountPage = () => {
   const handleLogin = () => {
     chrome.runtime.sendMessage({
       type: "GET_ACCESS_TOKEN"
+    }, (response) => {
+      console.log('response', response)
     })
   }
 
-  const handleGetUserInfo = () => {
-    chrome.runtime.sendMessage({
-      type: "GET_USER_INFO"
-    })
-  }
+  // const handleGetUserInfo = () => {
+  //   chrome.runtime.sendMessage({
+  //     type: "GET_USER_INFO"
+  //   }, (response) => {
+  //     console.log('response', response)
+  //   })
+  // }
+
+  // const handleSignOut = () => {
+  //   chrome.runtime.sendMessage({
+  //     type: "SIGN_OUT"
+  //   }, (response) => {
+  //     console.log('response', response)
+  //   })
+  // }
 
   return (
     <div className="h-full fixed inset-0 bg-black bg-opacity-50">
@@ -30,10 +42,15 @@ export const AddAccountPage = () => {
             Sign in with Google
           </Button>
 
-          <Button onClick={handleGetUserInfo} variant="outline" className="w-full mb-2 flex items-center">
+          {/* <Button onClick={handleGetUserInfo} variant="outline" className="w-full mb-2 flex items-center">
             <img src="/google-icon.png" alt="Google" className="w-5 h-5 mr-2" />
             Get User Info
           </Button>
+
+          <Button onClick={handleSignOut} variant="outline" className="w-full mb-2 flex items-center">
+            <img src="/google-icon.png" alt="Google" className="w-5 h-5 mr-2" />
+            Sign Out
+          </Button> */}
 
           <Button variant="outline" className="w-full mb-4 flex items-center">
             <img src="/ledger-icon.png" alt="Ledger" className="w-5 h-5 mr-2" />
