@@ -6,16 +6,18 @@ import { ThumbsUp, Eye } from "lucide-react";
 import { useNavigate } from 'react-router-dom';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import algosdk, { Account } from 'algosdk';
+import { CustomAccount } from '@/types';
 
 export const CreateAccountSuccessPage = () => {
   const navigate = useNavigate();
-  const [accounts, setAccounts] = useLocalStorage<Account[]>('accounts', []);
+  const [accounts, setAccounts] = useLocalStorage<CustomAccount[]>('accounts', []);
   const [mnemonic, setMnemonic] = useState<string>('');
 
   useEffect(() => {
     const account = algosdk.generateAccount();
+    account.addr.publicKey.toString()
     const mnemonicPhrase = algosdk.secretKeyToMnemonic(account.sk);
-    setAccounts([...accounts, account]);
+    setAccounts([...accounts, { type: "mnemonic", account }]);
     setMnemonic(mnemonicPhrase);
   }, []);
 

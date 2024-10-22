@@ -1,15 +1,33 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { useNavigate } from 'react-router-dom';
+import useLocalStorage from '@/hooks/useLocalStorage';
+import { CustomAccount } from '@/types';
+import algosdk from 'algosdk';
 
 export const AddAccountPage = () => {
   const navigate = useNavigate();
+  const [accounts, setAccounts] = useLocalStorage<CustomAccount[]>('accounts', []);
 
   const handleLogin = () => {
     chrome.runtime.sendMessage({
       type: "GET_ACCESS_TOKEN"
     }, (response) => {
       console.log('response', response)
+      const account = algosdk.generateAccount();
+
+      const existingAccount = accounts.find((account) => {
+        if (account.type == "google" && account.email == response.userInfo.email) {
+          return true
+        }
+        return false
+      })
+
+      if (existingAccount) {
+        console.log('Account already exists')
+      } else {
+        setAccounts([...accounts, { type: "google", account: account, email: response.userInfo.email }])
+      }
     })
   }
 
@@ -21,13 +39,13 @@ export const AddAccountPage = () => {
   //   })
   // }
 
-  // const handleSignOut = () => {
-  //   chrome.runtime.sendMessage({
-  //     type: "SIGN_OUT"
-  //   }, (response) => {
-  //     console.log('response', response)
-  //   })
-  // }
+  const handleSignOut = () => {
+    chrome.runtime.sendMessage({
+      type: "SIGN_OUT"
+    }, (response) => {
+      console.log('response', response)
+    })
+  }
 
   return (
     <div className="h-full fixed inset-0 bg-black bg-opacity-50">
@@ -38,24 +56,23 @@ export const AddAccountPage = () => {
 
         <div className="p-3 overflow-y-auto flex-grow">
           <Button onClick={handleLogin} variant="outline" className="w-full mb-2 flex items-center">
-            <img src="/google-icon.png" alt="Google" className="w-5 h-5 mr-2" />
+            <img src="img/google.png" className='w-5 h-5' alt="" />
             Sign in with Google
           </Button>
 
           {/* <Button onClick={handleGetUserInfo} variant="outline" className="w-full mb-2 flex items-center">
             <img src="/google-icon.png" alt="Google" className="w-5 h-5 mr-2" />
             Get User Info
-          </Button>
-
-          <Button onClick={handleSignOut} variant="outline" className="w-full mb-2 flex items-center">
-            <img src="/google-icon.png" alt="Google" className="w-5 h-5 mr-2" />
-            Sign Out
           </Button> */}
 
-          <Button variant="outline" className="w-full mb-4 flex items-center">
+          <Button onClick={handleSignOut} variant="outline" className="w-full mb-2 flex items-center">
+            Sign Out
+          </Button>
+
+          {/* <Button variant="outline" className="w-full mb-4 flex items-center">
             <img src="/ledger-icon.png" alt="Ledger" className="w-5 h-5 mr-2" />
             Set up Ledger
-          </Button>
+          </Button> */}
 
           <div className="flex items-center my-4">
             <div className="flex-grow border-t border-gray-300"></div>
