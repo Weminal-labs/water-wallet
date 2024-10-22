@@ -4,6 +4,9 @@ import { Card, CardContent } from "@/components/ui/card"
 import { ArrowUpRight, ArrowDownLeft, AlertCircle } from 'lucide-react'
 import { getAccountTransactions } from '@/lib/algorand/account'
 import { Transaction } from 'algosdk/dist/types/client/v2/indexer/models/types'
+import { TransactionDetailsModal } from './modal/TransactionDetailsModal'
+import { getExplorerUrl } from '@/lib/algorand/network'
+import { formatAlgoAmount } from '@/lib/algorand/utils'
 
 type SimpleTransaction = {
   type: 'Transaction' | 'Receive' | 'Failed'
@@ -25,6 +28,8 @@ const ActivityIcon = ({ type }: { type: SimpleTransaction['type'] }) => {
 
 export const Activity = () => {
   const [simpleTransactions, setSimpleTransactions] = useState<SimpleTransaction[]>([])
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [selectedTransaction, setSelectedTransaction] = useState<SimpleTransaction | null>(null)
 
   useEffect(() => {
     const address = "DTUA424DKCJYPHF5MLO6CL4R2BWOTH2GLOUQA257K5I7G65ENHSDJ4TTTE"
@@ -53,13 +58,19 @@ export const Activity = () => {
     fetchTransactions()
   }, [])
 
+  const openModal = () => setIsModalOpen(true)
+  const closeModal = () => setIsModalOpen(false)
+
   return (
     <div className="flex flex-col h-full">
       <h2 className="text-2xl font-bold p-4 text-center">Your Activity</h2>
       <Card className="flex-grow overflow-auto rounded-none border-none">
         <CardContent className="p-0">
           {simpleTransactions.map((item, index) => (
-            <div key={item.txId} className="px-4">
+            <div onClick={() => {
+              setSelectedTransaction(item)
+              openModal()
+            }} key={item.txId} className="px-4">
               <div className="py-4 flex items-center">
                 <div className="w-8 h-8 flex items-center justify-center mr-3">
                   <ActivityIcon type={item.type} />
@@ -76,6 +87,15 @@ export const Activity = () => {
           ))}
         </CardContent>
       </Card>
+      {isModalOpen && selectedTransaction && (
+        <TransactionDetailsModal
+          date={selectedTransaction.date}
+          gasFee={formatAlgoAmount(selectedTransaction.fee)}
+          explorerUrl={`${getExplorerUrl('mainnet')}/tx/${selectedTransaction.txId}`}
+          isOpen={isModalOpen}
+          onClose={closeModal}
+        />
+      )}
     </div>
   )
 }

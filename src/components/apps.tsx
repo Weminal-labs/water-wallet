@@ -1,29 +1,31 @@
 import React from 'react'
 
 import { useState } from 'react'
-import { Settings, Database, Sparkles, Grid, Activity } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
 
 const apps = [
   {
-    name: 'Scallop',
-    description: 'Next generation Money Market',
-    logo: '/placeholder.svg?height=60&width=60',
-    categories: ['DEFI']
+    name: 'Tinyman',
+    description: 'DeFi protocol for swapping, exchanging and providing liquidity',
+    logo: 'img/Tinyman.png',
+    categories: ['DEX', 'DeFi'],
+    url: "https://tinyman.org/"
   },
   {
-    name: 'Cetus Protocol',
-    description: 'The pioneer concentrated liquidity DEX on Algorand.',
-    logo: '/placeholder.svg?height=60&width=60',
-    categories: ['DEX', 'DEFI']
+    name: 'AlgoDex',
+    description: 'Decentralized orderbook exchange',
+    logo: 'img/AlgoDex.png',
+    categories: ['Game'],
+    url: "https://app.algodex.com/en/about"
   },
   {
-    name: 'Hop Aggregator',
-    description: 'Get the best rates and fastest swaps, with no added fees.',
-    logo: '/placeholder.svg?height=60&width=60',
-    categories: ['DEFI']
+    name: 'Aegir Tactics',
+    description: 'Digital assets for Project Aegir, a next-generation digital card game',
+    logo: 'img/aegir-tactics.png',
+    categories: ['Game'],
+    url: "https://www.aegirtactics.com/"
   },
 ]
 
@@ -59,7 +61,7 @@ export const Apps = () => {
       <ScrollArea className="flex-grow px-6 pb-6">
         <div className="space-y-4">
           {apps.map((app, index) => (
-            <Card key={index}>
+            <Card key={index} onClick={() => window.open(app.url, '_blank')}>
               <CardContent className="p-4 flex items-center space-x-4">
                 <img src={app.logo} alt={`${app.name} logo`} className="w-12 h-12 rounded-full" />
                 <div className="flex-grow">

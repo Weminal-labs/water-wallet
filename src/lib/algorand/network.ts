@@ -24,3 +24,12 @@ export const getIndexerUrl = (network: string): string => {
   return `https://${network}-idx.algonode.cloud/`;
 }
 
+export const getExplorerUrl = (network: string): string => {
+  const explorerMap: { [key: string]: string } = {
+    'mainnet': `https://explorer.perawallet.app`,
+    'testnet': `https://testnet.explorer.perawallet.app`,
+  };
+
+  const lowercaseNetwork = network.toLowerCase();
+  return explorerMap[lowercaseNetwork];
+}

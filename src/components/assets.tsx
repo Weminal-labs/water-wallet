@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { getAccountInfo, getAssetInfo } from '@/lib/algorand/account'
 import algosdk from 'algosdk'
+import { NFTDetailModal } from '@/components/modal/NFTDetailModal';
 
 interface NFTInfo extends algosdk.modelsv2.Asset {
   type: string;
@@ -12,7 +13,8 @@ interface NFTInfo extends algosdk.modelsv2.Asset {
 
 export const Assets = () => {
   const [nfts, setNfts] = useState<NFTInfo[]>([]);
-  console.log(nfts);
+  const [selectedNFT, setSelectedNFT] = useState<NFTInfo | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchNFTs = async () => {
@@ -29,10 +31,11 @@ export const Assets = () => {
           const fetchedNFTs = await Promise.all(nftResults.filter(asset => asset.type === 'NFT').map(async nft => {
             if (nft.params.metadataHash) {
               try {
-                const response = await fetch(`https://mainnet.api.perawallet.app/v1/public/assets/${nft.assetId}/`, {
+                const response = await fetch(`https://mainnet.api.perawallet.app/v1/public/assets/${nft.assetId}`, {
                   method: 'GET',
                 });
                 const data = await response.json();
+                console.log("metadata", data)
                 return { ...nft, metadata: data };
               } catch (error) {
                 console.error('Error fetching metadata:', error);
@@ -57,7 +60,15 @@ export const Assets = () => {
       <h2 className="text-2xl font-bold">Assets</h2>
       <div className="grid grid-cols-2 gap-4 flex-grow overflow-auto">
         {nfts.map((nft, index) => (
-          <Card key={index} className="w-full aspect-square p-0 overflow-hidden rounded-lg shadow-md">
+          <Card
+            key={index}
+            className="w-full aspect-square p-0 overflow-hidden rounded-lg shadow-md cursor-pointer"
+            onClick={() => {
+              setSelectedNFT(nft)
+              setIsModalOpen(true)
+              console.log("Im here111")
+            }}
+          >
             {nft.params.url && (
               <img
                 src={nft.metadata.collectible.media[0].url}
@@ -72,6 +83,18 @@ export const Assets = () => {
         <Button variant="default" className="flex-1">Visual Assets</Button>
         <Button variant="outline" className="flex-1 text-gray-500">Everything Else</Button>
       </div>
+      {selectedNFT && (
+        <NFTDetailModal
+          isOpen={isModalOpen}
+          onClose={() => setSelectedNFT(null)}
+          nft={{
+            name: selectedNFT.params.name || '',
+            assetId: selectedNFT.assetId.toString(),
+            link: selectedNFT.params.url || '',
+            metadata: selectedNFT.metadata || '',
+          }}
+        />
+      )}
     </div>
   )
 }

@@ -5,7 +5,7 @@ export const getAccountInfo = async (network: string, address: string) => {
   try {
     const algodClient = new algosdk.Algodv2('', 'https://mainnet-api.algonode.cloud', '');
     const accountInfo = await algodClient.accountInformation(address).do();
-    console.log(accountInfo);
+    // console.log(accountInfo);
 
     accountInfo?.assets?.forEach((asset) => {
       getAssetInfo(network, asset.assetId);
@@ -28,10 +28,10 @@ export const getAssetInfo = async (network: string, assetId: number | bigint) =>
         assetId,
         ...assetInfo
       };
-      console.log('NFT Info:', nftInfo);
+      // console.log('NFT Info:', nftInfo);
       return nftInfo;
     } else {
-      console.log('Asset Info:', assetInfo);
+      // console.log('Asset Info:', assetInfo);
       return { type: 'Asset', ...assetInfo };
     }
   } catch (error) {
@@ -44,7 +44,7 @@ export const getAccountTransactions = async (network: string, address: string, l
   try {
     const indexerClient = new algosdk.Indexer('', getIndexerUrl(network), '');
     const result = await indexerClient.lookupAccountTransactions(address).limit(limit).do();
-    console.log(result.transactions);
+    // console.log(result.transactions);
     return result.transactions;
   } catch (error) {
     console.error('Error fetching account transactions:', error);

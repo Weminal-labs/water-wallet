@@ -42,7 +42,7 @@ export default defineManifest({
   ],
   permissions: ['sidePanel', 'storage', 'identity', 'identity.email'],
   chrome_url_overrides: {
-    newtab: 'newtab.html',
+    // newtab: 'newtab.html',
   },
   oauth2: {
     client_id: '452102758754-ri7fo3mpn0ctkdk5673lt8elp03c0429.apps.googleusercontent.com',
