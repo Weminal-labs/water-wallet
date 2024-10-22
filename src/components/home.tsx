@@ -4,11 +4,9 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import algosdk from 'algosdk';
-import { AddAccountModal } from './modal/AddAccountModal'
+import { useNavigate } from 'react-router-dom';
 
 export const Home = () => {
-  const [showAddAccountModal, setShowAddAccountModal] = useState(false);
-
   const createAccount = () => {
     const account = algosdk.generateAccount();
     console.log("Account Address:", account.addr);
@@ -17,6 +15,8 @@ export const Home = () => {
     // Here you would typically save the account information securely
     // and update your UI to show the new account
   };
+
+  const navigate = useNavigate();
 
   return (
     <div className="p-3 space-y-6 flex flex-col h-full-screen mb-3">
@@ -64,7 +64,7 @@ export const Home = () => {
             <Button
               variant="ghost"
               className="text-blue-600"
-              onClick={() => setShowAddAccountModal(true)}
+              onClick={() => navigate('/add-account')}
             >
               <Plus className="w-4 h-4 mr-2" />
               ADD
@@ -127,10 +127,6 @@ export const Home = () => {
           </div>
         </div>
       </div>
-
-      {showAddAccountModal && (
-        <AddAccountModal onClose={() => setShowAddAccountModal(false)} />
-      )}
     </div>
   )
 }
