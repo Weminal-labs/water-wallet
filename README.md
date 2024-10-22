@@ -1,4 +1,4 @@
-# wallet-algo-new
+# Water Wallet
 
 > a chrome extension tools built with Vite + React, and Manifest v3
 
@@ -13,7 +13,7 @@
 run the command
 
 ```shell
-$ cd wallet-algo-new
+$ cd water-wallet
 
 $ npm run dev
 ```
@@ -21,7 +21,7 @@ $ npm run dev
 ### Chrome Extension Developer Mode
 
 1. set your Chrome browser 'Developer mode' up
-2. click 'Load unpacked', and select `wallet-algo-new/build` folder
+2. click 'Load unpacked', and select `water-wallet/build` folder
 
 ### Nomal FrontEnd Developer Mode
 
