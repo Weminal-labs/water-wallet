@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import './Popup.css'
-import { WalletInterface } from '@/components/wallet-interface'
+import { WalletInterface } from '@/components/WalletInterface'
 
 export const Popup = () => {
   const [currentAccount, setCurrentAccount] = useState({

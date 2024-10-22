@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Settings, Plus, Database, Sparkles, Grid, Activity } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import algosdk from 'algosdk';
+import { AddAccountModal } from './modal/AddAccountModal'
 
 export const Home = () => {
+  const [showAddAccountModal, setShowAddAccountModal] = useState(false);
 
   const createAccount = () => {
     const account = algosdk.generateAccount();
@@ -59,7 +61,11 @@ export const Home = () => {
               <Database className="w-4 h-4 mr-2" />
               MANAGE
             </Button>
-            <Button variant="ghost" className="text-blue-600">
+            <Button
+              variant="ghost"
+              className="text-blue-600"
+              onClick={() => setShowAddAccountModal(true)}
+            >
               <Plus className="w-4 h-4 mr-2" />
               ADD
             </Button>
@@ -121,6 +127,10 @@ export const Home = () => {
           </div>
         </div>
       </div>
+
+      {showAddAccountModal && (
+        <AddAccountModal onClose={() => setShowAddAccountModal(false)} />
+      )}
     </div>
   )
 }

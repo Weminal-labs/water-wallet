@@ -2,7 +2,6 @@ import { defineConfig } from 'vite'
 import { crx } from '@crxjs/vite-plugin'
 import react from '@vitejs/plugin-react'
 import path from 'path'
-import tailwindcss from 'tailwindcss'
 
 import manifest from './src/manifest'
 
@@ -25,6 +24,13 @@ export default defineConfig(({ mode }) => {
       },
     },
 
-    plugins: [crx({ manifest }), react(), tailwindcss()],
+    plugins: [crx({ manifest }), react()],
+
+    // Add the following configuration for better HMR support
+    server: {
+      hmr: {
+        port: 3000,
+      },
+    },
   }
 })

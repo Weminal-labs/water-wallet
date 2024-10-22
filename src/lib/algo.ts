@@ -1,0 +1,17 @@
+/**
+ * Returns the URL for a given Algorand network.
+ * @param network The name of the Algorand network.
+ * @returns The URL of the Algorand network or null if not found.
+ */
+export function getAlgorandNetworkUrl(network: string): string | null {
+  const networkMap: { [key: string]: string } = {
+    'mainnet': 'https://mainnet-api.algonode.cloud',
+    'testnet': 'https://testnet-api.algonode.cloud',
+    'betanet': 'https://betanet-api.algonode.cloud',
+    'localnet': 'http://localhost:4001',
+  };
+
+  const lowercaseNetwork = network.toLowerCase();
+  return networkMap[lowercaseNetwork] || null;
+}
+

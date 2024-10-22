@@ -32,7 +32,7 @@ export const Apps = () => {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex-shrink-0 space-y-6 p-6">
+      <div className="flex-shrink-0 space-y-6 p-3">
         <h2 className="text-2xl font-bold">Algorand Apps</h2>
         <Card className="bg-gray-100">
           <CardContent className="p-4">
@@ -42,7 +42,7 @@ export const Apps = () => {
           </CardContent>
         </Card>
         <div className="sticky top-0 bg-white z-10">
-          <div className="flex flex-nowrap gap-1 pb-2 overflow-x-auto">
+          <div className="flex flex-nowrap gap-1 pb-2 overflow-x-auto justify-center">
             {['Connections', 'All', 'DeFi', 'DEX', 'Game'].map((filter) => (
               <Button
                 key={filter}
@@ -57,7 +57,7 @@ export const Apps = () => {
         </div>
       </div>
       <ScrollArea className="flex-grow px-6 pb-6">
-        <div className="space-y-4 pr-4">
+        <div className="space-y-4">
           {apps.map((app, index) => (
             <Card key={index}>
               <CardContent className="p-4 flex items-center space-x-4">
