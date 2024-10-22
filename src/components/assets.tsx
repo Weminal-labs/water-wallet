@@ -1,30 +1,70 @@
-import React from 'react'
-import { Card, CardContent } from "@/components/ui/card"
+import React, { useState, useEffect } from 'react'
+import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { getAccountInfo, getAssetInfo } from '@/lib/algorand/account'
+import algosdk from 'algosdk'
 
-
-const assets = [
-  { username: '@walcast', expirationDate: 'Sep 16, 2025' },
-  { username: '@tung-lee', expirationDate: 'May 03, 2025' },
-  { username: '@orai3d', expirationDate: 'Sep 15, 2025' },
-]
+interface NFTInfo extends algosdk.modelsv2.Asset {
+  type: string;
+  assetId: number | bigint;
+  metadata: object;
+}
 
 export const Assets = () => {
+  const [nfts, setNfts] = useState<NFTInfo[]>([]);
+  console.log(nfts);
+
+  useEffect(() => {
+    const fetchNFTs = async () => {
+      try {
+        const address = 'DTUA424DKCJYPHF5MLO6CL4R2BWOTH2GLOUQA257K5I7G65ENHSDJ4TTTE'; // Replace with the actual address
+        const network = 'mainnet'; // or 'testnet' depending on your needs
+        const accountInfo = await getAccountInfo(network, address);
+
+        if (accountInfo?.assets) {
+          const nftPromises = accountInfo.assets.map(asset =>
+            getAssetInfo(network, asset.assetId)
+          );
+          const nftResults = await Promise.all(nftPromises);
+          const fetchedNFTs = await Promise.all(nftResults.filter(asset => asset.type === 'NFT').map(async nft => {
+            if (nft.params.metadataHash) {
+              try {
+                const response = await fetch(`https://mainnet.api.perawallet.app/v1/public/assets/${nft.assetId}/`, {
+                  method: 'GET',
+                });
+                const data = await response.json();
+                return { ...nft, metadata: data };
+              } catch (error) {
+                console.error('Error fetching metadata:', error);
+                return nft;
+              }
+            }
+            return nft;
+          }));
+
+          setNfts(fetchedNFTs);
+        }
+      } catch (error) {
+        console.error('Error fetching NFTs:', error);
+      }
+    };
+
+    fetchNFTs();
+  }, []);
+
   return (
-    <div className="p-6 space-y-6 flex flex-col h-full">
+    <div className="p-3 space-y-6 flex flex-col h-full">
       <h2 className="text-2xl font-bold">Assets</h2>
       <div className="grid grid-cols-2 gap-4 flex-grow overflow-auto">
-        {assets.map((asset, index) => (
-          <Card key={index} className="bg-purple-900 text-white overflow-hidden">
-            <CardContent className="p-4 flex flex-col justify-between h-full">
-              <div className="text-green-400 font-semibold mb-4">{asset.username}</div>
-              <div className="flex justify-between items-end">
-                <svg viewBox="0 0 24 24" className="w-8 h-8 text-purple-300 opacity-50" fill="currentColor">
-                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-                </svg>
-                <div className="text-xs text-purple-300">{asset.expirationDate}</div>
-              </div>
-            </CardContent>
+        {nfts.map((nft, index) => (
+          <Card key={index} className="w-full aspect-square p-0 overflow-hidden rounded-lg shadow-md">
+            {nft.params.url && (
+              <img
+                src={nft.metadata.collectible.media[0].url}
+                alt={nft.params.name}
+                className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+              />
+            )}
           </Card>
         ))}
       </div>

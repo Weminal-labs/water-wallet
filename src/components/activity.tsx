@@ -33,7 +33,7 @@ export const Activity = () => {
         const transactions = await getAccountTransactions('mainnet', address)
         const formattedTransactions = transactions.map((tran: Transaction): SimpleTransaction => ({
           type: tran.sender == address ? "Transaction" : "Receive",
-          date: new Date(tran?.roundTime * 1000).toLocaleString('en-US', {
+          date: new Date(tran?.roundTime ?? 0 * 1000).toLocaleString('en-US', {
             month: 'short',
             day: 'numeric',
             hour: '2-digit',
@@ -41,7 +41,7 @@ export const Activity = () => {
             hour12: false
           }),
           fee: Number(tran.fee),
-          txId: tran.id,
+          txId: tran.id ?? '',
         }))
         console.log(formattedTransactions)
         setSimpleTransactions(formattedTransactions)

@@ -25,12 +25,8 @@ export const getAssetInfo = async (network: string, assetId: number | bigint) =>
     if (assetInfo.params.decimals === 0) {
       const nftInfo = {
         type: 'NFT',
-        assetId: assetId,
-        name: assetInfo.params.name,
-        unitName: assetInfo.params.unitName,
-        url: assetInfo.params.url,
-        creator: assetInfo.params.creator,
-        // Add more relevant NFT properties as needed
+        assetId,
+        ...assetInfo
       };
       console.log('NFT Info:', nftInfo);
       return nftInfo;
