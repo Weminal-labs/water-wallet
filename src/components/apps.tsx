@@ -32,7 +32,7 @@ export const Apps = () => {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex-shrink-0 space-y-6 pb-4">
+      <div className="flex-shrink-0 space-y-6 p-6">
         <h2 className="text-2xl font-bold">Sui Apps</h2>
         <Card className="bg-gray-100">
           <CardContent className="p-4">
@@ -42,12 +42,12 @@ export const Apps = () => {
           </CardContent>
         </Card>
         <div className="sticky top-0 bg-white z-10">
-          <div className="flex space-x-2 pb-2">
+          <div className="flex flex-nowrap gap-1 pb-2 overflow-x-auto">
             {['Connections', 'All', 'DeFi', 'DEX', 'Game'].map((filter) => (
               <Button
                 key={filter}
                 variant={activeAppFilter === filter ? "default" : "outline"}
-                className="flex-shrink-0"
+                className="text-xs px-2 py-1 whitespace-nowrap"
                 onClick={() => setActiveAppFilter(filter)}
               >
                 {filter}
@@ -56,7 +56,7 @@ export const Apps = () => {
           </div>
         </div>
       </div>
-      <ScrollArea className="flex-grow">
+      <ScrollArea className="flex-grow px-6 pb-6">
         <div className="space-y-4 pr-4">
           {apps.map((app, index) => (
             <Card key={index}>

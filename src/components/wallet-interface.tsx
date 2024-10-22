@@ -37,9 +37,11 @@ export function WalletInterface() {
 
   return (
     <>
-      <div className="flex justify-center items-center min-h-screen bg-gray-100">
-        <div className="w-full max-w-md bg-white rounded-3xl shadow-lg overflow-hidden">
-          {renderContent()}
+      <div className="flex justify-center items-center bg-gray-100 h-[520px]">
+        <div className="h-full w-full max-w-md bg-white rounded-3xl shadow-lg overflow-hidden flex flex-col">
+          <div className="flex-grow overflow-auto">
+            {renderContent()}
+          </div>
 
           <div className="flex justify-around items-center border-t border-gray-200 py-4">
             {tabs.map((tab) => (
@@ -57,25 +59,6 @@ export function WalletInterface() {
               </Button>
             ))}
           </div>
-
-          {/* <div className="flex justify-around items-center border-t border-gray-200 py-4">
-          <Button variant="ghost" className="flex flex-col items-center text-blue-600">
-            <Database className="w-6 h-6" />
-            <span className="text-xs mt-1">Home</span>
-          </Button>
-          <Button variant="ghost" className="flex flex-col items-center text-gray-400">
-            <Sparkles className="w-6 h-6" />
-            <span className="text-xs mt-1">Assets</span>
-          </Button>
-          <Button variant="ghost" className="flex flex-col items-center text-gray-400">
-            <Grid className="w-6 h-6" />
-            <span className="text-xs mt-1">Apps</span>
-          </Button>
-          <Button variant="ghost" className="flex flex-col items-center text-gray-400">
-            <Activity className="w-6 h-6" />
-            <span className="text-xs mt-1">Activity</span>
-          </Button>
-        </div> */}
         </div>
       </div>
     </>

@@ -11,9 +11,9 @@ const assets = [
 
 export const Assets = () => {
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-6 space-y-6 flex flex-col h-full">
       <h2 className="text-2xl font-bold">Assets</h2>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-4 flex-grow overflow-auto">
         {assets.map((asset, index) => (
           <Card key={index} className="bg-purple-900 text-white overflow-hidden">
             <CardContent className="p-4 flex flex-col justify-between h-full">
@@ -28,7 +28,7 @@ export const Assets = () => {
           </Card>
         ))}
       </div>
-      <div className="flex space-x-4">
+      <div className="flex space-x-4 mt-auto pt-4">
         <Button variant="default" className="flex-1">Visual Assets</Button>
         <Button variant="outline" className="flex-1 text-gray-500">Everything Else</Button>
       </div>
