@@ -15,7 +15,7 @@ const apps = [
   },
   {
     name: 'Cetus Protocol',
-    description: 'The pioneer concentrated liquidity DEX on Sui.',
+    description: 'The pioneer concentrated liquidity DEX on Algorand.',
     logo: '/placeholder.svg?height=60&width=60',
     categories: ['DEX', 'DEFI']
   },
@@ -33,11 +33,11 @@ export const Apps = () => {
   return (
     <div className="flex flex-col h-full">
       <div className="flex-shrink-0 space-y-6 p-6">
-        <h2 className="text-2xl font-bold">Sui Apps</h2>
+        <h2 className="text-2xl font-bold">Algorand Apps</h2>
         <Card className="bg-gray-100">
           <CardContent className="p-4">
             <p className="text-gray-600">
-              Apps below are actively curated but do not indicate any endorsement or relationship with Sui Wallet. Please DYOR.
+              Apps below are actively curated but do not indicate any endorsement or relationship with Algorand Wallet. Please DYOR.
             </p>
           </CardContent>
         </Card>

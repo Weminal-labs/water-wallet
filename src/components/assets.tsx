@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 
 const assets = [
   { username: '@walcast', expirationDate: 'Sep 16, 2025' },
-  { username: '@lekhacthanhtung', expirationDate: 'May 03, 2025' },
+  { username: '@tung-lee', expirationDate: 'May 03, 2025' },
   { username: '@orai3d', expirationDate: 'Sep 15, 2025' },
 ]
 

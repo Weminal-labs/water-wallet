@@ -17,11 +17,11 @@ export const Home = () => {
   };
 
   return (
-    <div className="p-6 space-y-6 flex flex-col h-full">
+    <div className="p-3 space-y-6 flex flex-col h-full-screen mb-3">
       <div className="flex justify-between items-center">
         <div className="flex items-center space-x-2">
           <svg viewBox="0 0 24 24" className="w-6 h-6 text-blue-600" fill="currentColor">
-            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5"></path>
+            <path d="M12 2L2 7l10 5 10-5-10-5"></path>
           </svg>
           <span className="text-xl font-semibold">Algorand Wallet</span>
         </div>
@@ -47,7 +47,7 @@ export const Home = () => {
               <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
             </svg>
             <div className="flex-grow">
-              <div className="text-sm text-gray-600 truncate">lekhacthanhtung.it@gm...</div>
+              <div className="text-sm text-gray-600 truncate">lekhacthanhtung...Portfolio</div>
               <div className="text-xs text-gray-400">0xb4b2...915d</div>
             </div>
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
@@ -69,14 +69,58 @@ export const Home = () => {
 
       <div className="bg-gray-200 h-6 rounded-full w-full"></div>
 
-      <Button
-        variant="outline"
-        className="w-full justify-center items-center space-x-2"
-        onClick={createAccount}
-      >
-        <Plus className="w-5 h-5" />
-        <span>Create New Account</span>
-      </Button>
+      <div className="flex justify-center">
+        <span className="text-sm text-gray-500 uppercase font-bold">lekhacthanhtung...Portfolio</span>
+      </div>
+
+      <div className="bg-blue-50 rounded-lg p-4">
+        <h2 className="text-3xl font-bold flex items-baseline">0.993995484 <span className="text-xl text-gray-500 ml-1">Algo</span></h2>
+        <div className="flex space-x-2 mt-2">
+          <Button variant="outline" size="sm">Send</Button>
+          <Button variant="outline" size="sm">Swap</Button>
+        </div>
+        <div className="flex items-center mt-4 text-blue-600">
+          <Database className="w-5 h-5 mr-2" />
+          <span className="font-medium">Currently Staked</span>
+          <span className="ml-2">10 Algo</span>
+        </div>
+      </div>
+
+      <div className="space-y-4">
+        <h3 className="text-lg font-semibold">MY COINS</h3>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            <div className="w-8 h-8 bg-blue-400 rounded-full mr-3 flex items-center justify-center">
+              <Sparkles className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <div className="font-medium">Algo</div>
+              <div className="text-sm text-gray-500">ALGO</div>
+            </div>
+          </div>
+          <div className="text-right">
+            <div className="font-medium">0.993995...</div>
+          </div>
+        </div>
+      </div>
+
+      <div className="space-y-4">
+        <h3 className="text-lg font-semibold">1 UNRECOGNIZED COIN</h3>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            <div className="w-8 h-8 bg-green-400 rounded-full mr-3 flex items-center justify-center">
+              <Activity className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <div className="font-medium">USDC</div>
+              <div className="text-sm text-gray-500">Send</div>
+            </div>
+          </div>
+          <div className="text-right">
+            <div className="font-medium">116.52 US...</div>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
